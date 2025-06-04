@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <input
-        type="text"
-        placeholder="Search..."
-        className="p-2 rounded bg-gray-700 text-white"
-      />
+      <span className="p-2 rounded bg-gray-700 text-white">
+        Lets Make It Happen
+      </span>
       <div>
         <Link to="/" className="mx-2 hover:text-blue-400">Home</Link>
         <Link to="/about" className="mx-2 hover:text-blue-400">About Me</Link>

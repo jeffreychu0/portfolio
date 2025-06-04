@@ -1,12 +1,12 @@
 import React from 'react';
-import ContactMe from '../components/ContactMe';
+import Home from '../components/Home';
 
-const ContactMePage = () => {
+const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <ContactMe />
+      <Home />
     </div>
   );
 };
 
-export default ContactMePage;
+export default HomePage;

@@ -6,6 +6,7 @@ import TimelinePage from './pages/TimelinePage';
 import ContactMePage from './pages/ContactMePage';
 import './styles/tailwind.css';
 import './styles/gradient.css';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       <div className="bg-gray-900 text-white min-h-screen">
         <Navbar />
         <Routes>
-          <Route path="/" element={<AboutMePage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutMePage />} />
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/contact" element={<ContactMePage />} />
         </Routes>
