@@ -3,7 +3,7 @@ import NavBar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import AboutMe from '../components/AboutMe';
 import Experience from '../components/Experience';
-import Testimonial from '../components/Testimonial';
+import TestimonialSection from '../components/TestimonialSection';
 import Footer from '../components/Footer';
 
 const HomePage = () => {
@@ -12,7 +12,7 @@ const HomePage = () => {
       <HeroSection />
       <AboutMe /> 
       <Experience />
-      <Testimonial />
+      <TestimonialSection />
       <Footer />
     </div>
   );

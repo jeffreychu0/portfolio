@@ -26,7 +26,7 @@ const experiences = [
 ];
 
 const Experience = () => (
-	<section className="bg-gradient-to-b from-gray-900 to-black text-white py-12 px-4 md:px-8">
+	<section id="experience-section" className="bg-gradient-to-b from-gray-900 to-black text-white py-12 px-4 md:px-8">
 		<h2 className="text-center text-3xl font-bold mb-12">Experience Timeline</h2>
 		<div className="relative mx-auto max-w-5xl">
 			{/* Vertical line, full height of parent */}
