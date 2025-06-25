@@ -1,12 +1,22 @@
 import React from 'react';
-import Home from '../components/Home';
+import NavBar from '../components/Navbar';
+import HeroSection from '../components/HeroSection';
+import AboutMe from '../components/AboutMe';
+import Experience from '../components/Experience';
+import Testimonial from '../components/Testimonial';
+import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <Home />
+    <div className="bg-black text-white">
+      <HeroSection />
+      <AboutMe /> 
+      <Experience />
+      <Testimonial />
+      <Footer />
     </div>
   );
 };
+
 
 export default HomePage;
