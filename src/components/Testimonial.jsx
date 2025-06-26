@@ -15,9 +15,9 @@ const Testimonial = ({ image, title, testimonial, bgcolor }) => {
         style={{ width: '60%', height: '100%' }}
       >
         <div className="flex flex-col justify-center h-full">
-          <p className="font-bold text-3xl md:text-4xl mb-12">{title}</p>
+          <p className="font-bold text-3xl md:text-4xl mb-6">{title}</p>
           {testimonialLines.map((line, idx) => (
-            <p key={idx} className="text-2xl md:text-3xl leading-snug mb-6">
+            <p key={idx} className="text-2xl md:text-xl leading-snug mb-4">
               {line}
             </p>
           ))}

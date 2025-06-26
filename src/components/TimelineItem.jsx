@@ -26,7 +26,7 @@ const TimelineItem = ({ title, date, description, image, align = 'left', isLast 
         <img
           src={image}
           alt={title}
-          className="rounded-xl w-full max-w-md aspect-video object-cover shadow-lg"
+          className="rounded-xl w-full max-w-md aspect-video object-cover shadow-lg "
         />
       </div>
     </div>

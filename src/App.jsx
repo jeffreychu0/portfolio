@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import AboutMePage from './pages/AboutMePage';
-import TimelinePage from './pages/TimelinePage';
+import ResumePage from './pages/ResumePage';
 import ContactMePage from './pages/ContactMePage';
 import './styles/tailwind.css';
 import './styles/gradient.css';
@@ -15,8 +14,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutMePage />} />
-          <Route path="/timeline" element={<TimelinePage />} />
+          <Route path="/resume" element={<ResumePage />} />
           <Route path="/contact" element={<ContactMePage />} />
         </Routes>
       </div>
