@@ -1,54 +1,54 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Testimonial from './Testimonial';
+import julianImg from '../assets/julian.jpeg';
 
 const testimonials = [
   {
-    image: 'path/to/image1.jpg',
-    title: 'Amazing Work!',
-    testimonial: 'This was a fantastic experience.',
-    bgcolor: 'bg-purple-900',
+    image: julianImg,
+    title: 'Julian Marquard - Custom Software Engineering Specialist',
+    testimonial: [
+      'I had the true pleasure of working together with Jeffrey on novel autonomous missions with Hudson, our 4-legged robot.',
+      'Jeffrey is a true doer, his ability to understand and solve advanced technical challenges is very remarkable',
+      'What takes the average student 3 days to accomplish, takes Jeffrey half a day - my biggest problem is that I can\'t find enough work for him fast enough.'
+    ],
+    bgcolor: 'bg-purple-700', // brighter
   },
   {
     image: 'path/to/image2.jpg',
     title: 'Highly Recommend',
     testimonial: 'Professional and creative.',
-    bgcolor: 'bg-green-900',
+    bgcolor: 'bg-green-700', // brighter
   },
   // Add more testimonials as needed
 ];
 
 const TestimonialSection = () => {
-    const [show, setShow] = useState(false);
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start center", "end center"] });
 
-  // Title: starts centered, scrolls up, then sticks to top
-  const titleY = useTransform(scrollYProgress, [0, 0.20, 0.30], ['40vh', '10vh', '10vh']);
-  const titlePosition = useTransform(scrollYProgress, [0, 0.15], ['absolute', 'fixed']);
+  // Title animation: 0% to 25%
+  const titleY = useTransform(scrollYProgress, [0, 0.25], ['80vh', '10vh']);
+  const titlePosition = useTransform(scrollYProgress, [0, 0.25], ['absolute', 'fixed']);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.1, 0.25], [0, 1, 1]);
 
-  // Background color transition
+  // Testimonial segments: first at 50-75%, second at 75-100%
+  const testimonialSegments = [
+    [0.35, 0.55], // First testimonial
+    [0.55, 0.75], // Second testimonial
+  ];
+
+  // Animate background: purple-900 for first, green-900 for second
   const bgColor = useTransform(
     scrollYProgress,
-    [0.6, 0.8],
-    ['#000', '#f3f4f6']
+    [0, 0.30, 0.35, 0.50, 0.55, 1],
+    ['#000000', '#000000', '#581c87','#581c87', '#14532d', '#14532d'] // purple-900, then green-900
   );
-
-  // Testimonial card animations
-  // Each testimonial gets its own scroll segment
-  const testimonialSegments = testimonials.map((_, i) => {
-    const start = 0.3 + i * 0.3; // Increase the gap between starts
-    const end = start + 0.3;     // Increase the duration each is visible
-    return [start, end];
-  });
-
-  // Animate title opacity: hidden at first, fades in between 0.15 and 0.22 scroll progress
-  const titleOpacity = useTransform(scrollYProgress, [0, 0, 0], [0, 0, 1]);
 
   return (
     <motion.section
       ref={ref}
-      style={{ background: bgColor, minHeight: `${80 + testimonials.length * 40}vh`, position: 'relative' }}
+      style={{ background: bgColor, minHeight: `${100 + testimonials.length * 100}vh`, position: 'relative' }}
       className="flex flex-col items-center w-full transition-colors duration-700"
     >
       {/* Animated Title */}
@@ -62,15 +62,15 @@ const TestimonialSection = () => {
           zIndex: 10,
           opacity: titleOpacity,
         }}
-        className="text-4xl font-bold text-center pt-8"
+        className="text-8xl font-bold text-center pt-8"
       >
-        What People Say
+        A few words from my coworkers
       </motion.h2>
 
       {/* Snapped Testimonials at Bottom */}
       <div
         className="fixed left-0 right-0 flex flex-col items-center"
-        style={{ bottom: 500, zIndex: 20, pointerEvents: 'none' }} // <-- increase bottom value
+        style={{ bottom: 150, zIndex: 20, pointerEvents: 'none' }}
       >
         {testimonials.map((t, i) => {
           const [start, end] = testimonialSegments[i];
@@ -95,9 +95,13 @@ const TestimonialSection = () => {
                 width: '100%',
                 left: 0,
                 right: 0,
+                height: '50vh',
+                bottom: 0,
                 pointerEvents: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-              className="flex justify-center"
             >
               <Testimonial {...t} />
             </motion.div>

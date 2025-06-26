@@ -5,7 +5,7 @@ const HeroSection = () => {
     return (
         <section 
             className="relative w-full aspect-[16/9] min-h-[400px] flex items-center justify-center bg-black overflow-hidden drop-shadow-2xl"
-            style={{filter: 'drop-shadow(0 80px 50px black)'}}
+            style={{filter: 'drop-shadow(0 20px 25px black)'}}
         >
             {/* Spacer to enforce aspect ratio */}
             <div className="w-full" style={{ paddingTop: '56.25%' }} />

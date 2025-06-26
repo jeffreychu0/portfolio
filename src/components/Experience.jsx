@@ -26,8 +26,17 @@ const experiences = [
 ];
 
 const Experience = () => (
-	<section id="experience-section" className="bg-gradient-to-b from-gray-900 to-black text-white py-12 px-4 md:px-8">
-		<h2 className="text-center text-3xl font-bold mb-12">Experience Timeline</h2>
+	<section
+		id="experience-section"
+		className="text-white py-12 px-4 md:px-8"
+		style={{
+			background: `
+                linear-gradient(16deg, rgba(17,24,39,0.3) 0%, #1e3a8a 100%,
+                linear-gradient(180deg, rgba(0,0,0,0) 85%, #000 100%)
+            `,
+		}}
+	>
+		<h2 className="text-center text-6xl font-bold mb-12">Experience Timeline</h2>
 		<div className="relative mx-auto max-w-5xl">
 			{/* Vertical line, full height of parent */}
 			<div className="hidden md:block absolute left-1/2 top-0 h-full w-1 bg-blue-500 transform -translate-x-1/2 z-0 rounded-lg"></div>

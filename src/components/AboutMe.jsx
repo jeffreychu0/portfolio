@@ -3,14 +3,14 @@ import profileImage from '../assets/profile_uncropped.jpeg';
 
 const AboutMe = () => {
   return (
-    <section className="bg-gray-900 text-white py-12 px-8 flex flex-col md:flex-row items-center justify-center gap-16">
+    <section className=" text-white py-12 px-8 flex flex-col md:flex-row items-center justify-center gap-16 bg-gradient-to-br from-gray-900 to-blue-900">
       <img
         src={profileImage}
         alt="Jeffrey Chu"
         className="rounded-xl w-4/12 object-cover md:mr-12 self-start"
         style={{ marginLeft: '-2rem' }}
       />
-      <div className="space-y-32">
+      <div className="md:space-y-32 sm:space-y-12">
         <h2 className="text-4xl md:text-6xl font-bold">Hello! I’m Jeffrey Chu</h2>
         <p className="max-w-2xl text-2xl">
           I’m a first-gen College Student pursuing my B.S. in Computer Science at New York Institute of Technology.
