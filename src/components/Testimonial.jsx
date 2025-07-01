@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Testimonial = ({ image, title, testimonial, bgcolor }) => {
+const Testimonial = ({ image, title, testimonial, bgcolor, fontSize }) => {
   // Ensure testimonial is always an array
   const testimonialLines = Array.isArray(testimonial) ? testimonial : [testimonial];
 
@@ -17,7 +17,7 @@ const Testimonial = ({ image, title, testimonial, bgcolor }) => {
         <div className="flex flex-col justify-center h-full">
           <p className="font-bold text-3xl md:text-4xl mb-6">{title}</p>
           {testimonialLines.map((line, idx) => (
-            <p key={idx} className="text-2xl md:text-xl leading-snug mb-4">
+            <p key={idx} className={`${fontSize} leading-snug mb-4`}>
               {line}
             </p>
           ))}
