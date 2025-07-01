@@ -1,11 +1,9 @@
-// import OpenAI from "openai";
+import OpenAI from "openai";
 import React, { useState, useRef, useEffect } from 'react';
 
 // Example initial messages (could be imported from /data/chat.json)
 const initialMessages = [
-  { role: 'system', content: 'You are a helpful AI assistant.' },
-  { role: 'user', content: 'Hello!' },
-  { role: 'assistant', content: 'Hi there! How can I help you today?' }
+  { role: 'assistant', content: 'Hello! I am Jc, an AI assistant made by Jeffrey to answer any questions you have of Jeffrey. Please ask me any questions you have of Jeffrey.' }
 ];
 
 const gradientBubble =
@@ -13,7 +11,20 @@ const gradientBubble =
 
 const lambdaRoute = import.meta.env.VITE_LAMBDA_API_URL;
 
-// const client = new OpenAI(apiKey=import.meta.env.VITE_OPENAI_API_KEY);
+const openai = new OpenAI({ apiKey: import.meta.env.VITE_OPENAI_API_KEY, dangerouslyAllowBrowser: true });
+
+const ASSISTANT_ID = import.meta.env.VITE_OPENAI_ASSISTANT_ID;
+
+const assistant = await openai.beta.assistants.retrieve(ASSISTANT_ID);
+const thread = await openai.beta.threads.create();
+
+await openai.beta.assistants.update(ASSISTANT_ID, {
+  tool_resources: {
+    file_search: {
+      vector_store_ids: [import.meta.env.VITE_OPENAI_VS_ID]
+    }
+  }
+});
 
 const ChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -31,22 +42,48 @@ const ChatWidget = () => {
     e.preventDefault();
     if (!input.trim()) return;
     const newMessages = [
-      ...messages,
+      ...messages.filter(m => m.role !== 'system'),
       { role: 'user', content: input }
     ];
     setMessages(newMessages);
     setInput('');
 
-    // Call Lambda backend for RAG+LLM response
     try {
-      const res = await fetch(lambdaRoute, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages }),
+      // Create a new thread for this message
+      const thread = await openai.beta.threads.create();
+
+      // Add the user message to the thread
+      await openai.beta.threads.messages.create(thread.id, {
+        role: 'user',
+        content: input
       });
-      const data = await res.json();
-      setMessages(msgs => [...msgs, { role: 'assistant', content: data.content }]);
+
+      // Run the assistant and poll for completion
+      let run = await openai.beta.threads.runs.createAndPoll(
+        thread.id,
+        { assistant_id: assistant.id }
+      );
+
+      // Get the latest assistant message
+      if (run.status === 'completed') {
+        const messagesResponse = await openai.beta.threads.messages.list(thread.id);
+        const assistantMessage = messagesResponse.data
+          .slice()
+          .reverse()
+          .find(m => m.role === "assistant");
+
+        if (assistantMessage) {
+          // Remove all content between and including 【 ... 】
+          const cleanedContent = assistantMessage.content[0].text.value.replace(/【[^】]*】/g, '').trim();
+
+          setMessages(msgs => [
+            ...msgs,
+            { role: 'assistant', content: cleanedContent }
+          ]);
+        }
+      }
     } catch (err) {
+      console.error('Error communicating with AI service:', err);
       setMessages(msgs => [
         ...msgs,
         { role: 'assistant', content: "Sorry, I couldn't reach the AI service." }

@@ -123,7 +123,7 @@ const TestimonialSection = () => {
           const textLength = t.testimonial.join(' ').length;
           let fontSize = 'text-3xl'; // default
           if (textLength > 1500) fontSize = 'text-sm';
-          else if (textLength > 700) fontSize = 'text-xl';
+          else if (textLength > 700) fontSize = 'text-lg';
           else if (textLength > 200) fontSize = 'text-3xl';
 
           return (

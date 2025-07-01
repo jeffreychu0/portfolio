@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
+    "aws-amplify": "^6.15.1",
     "framer-motion": "^12.19.1",
     "openai": "^5.8.2",
     "react": "^19.1.0",
