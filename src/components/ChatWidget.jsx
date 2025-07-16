@@ -7,7 +7,7 @@ const initialMessages = [
 ];
 
 const gradientBubble =
-  'bg-gradient-to-br from-green-400 via-purple-500 to-indigo-600 text-white';
+  'bg-gradient-to-br from-green-700 to-indigo-700 text-white';
 
 const lambdaRoute = import.meta.env.VITE_LAMBDA_API_URL;
 
@@ -29,6 +29,7 @@ await openai.beta.assistants.update(ASSISTANT_ID, {
 const ChatWidget = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState('');
   const inputRef = useRef(null);
   const chatEndRef = useRef(null);
@@ -47,6 +48,7 @@ const ChatWidget = () => {
     ];
     setMessages(newMessages);
     setInput('');
+    setLoading(true); // Start loading
 
     try {
       // Create a new thread for this message
@@ -88,6 +90,8 @@ const ChatWidget = () => {
         ...msgs,
         { role: 'assistant', content: "Sorry, I couldn't reach the AI service." }
       ]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -109,7 +113,7 @@ const ChatWidget = () => {
   // Expanded chat overlay
   return (
     <div
-      className="fixed z-50 bottom-0 right-0 w-full max-w-sm md:max-w-md max-h-full h-[70vh] md:h-[80vh] bg-gray-900 rounded-t-2xl shadow-2xl flex flex-col border-2 border-purple-700 focus:outline-none"
+      className="fixed z-50 bottom-0 right-0 w-full max-w-sm md:max-w-md max-h-screen h-[70vh] md:h-[80vh] bg-gray-900 rounded-t-2xl shadow-2xl flex flex-col border-2 border-blue-700 focus:outline-none"
       role="dialog"
       aria-modal="true"
       tabIndex={-1}
@@ -149,6 +153,13 @@ const ChatWidget = () => {
               </div>
             </div>
           ))}
+          {loading && (
+            <div className="flex justify-start">
+              <div className="rounded-2xl px-4 py-2 max-w-[80%] text-base break-words shadow bg-gradient-to-br from-green-700 to-indigo-700 text-white animate-pulse">
+                <span className="inline-block">Thinking<span className="animate-bounce">...</span></span>
+              </div>
+            </div>
+          )}
         <div ref={chatEndRef} />
       </div>
       {/* Input bar */}

@@ -3,7 +3,7 @@ import profileImage from '../assets/profile_final.png';
 
 const AboutMe = () => {
   return (
-    <section className=" text-white py-12 px-8 flex flex-col md:flex-row items-center justify-center gap-16 bg-gradient-to-br from-gray-900 to-blue-900">
+    <section className=" text-white py-12 px-8 flex flex-col md:flex-row items-center justify-center gap-16 bg-gradient-to-br from-green-900 via-blue-900 to-purple-900">
       <img
         src={profileImage}
         alt="Jeffrey Chu"

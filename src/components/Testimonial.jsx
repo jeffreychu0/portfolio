@@ -14,7 +14,7 @@ const Testimonial = ({ image, title, testimonial, bgcolor, fontSize }) => {
         className={`flex flex-col md:flex-row items-center gap-10 justify-center mx-auto p-10 rounded-2xl border-4 border-white ${bgcolor}`}
         style={{ width: '60%', height: '100%' }}
       >
-        <div className="flex flex-col justify-center h-full">
+        <div className="flex flex-col justify-center h-auto max-h-full">
           <p className="font-bold text-3xl md:text-4xl mb-6">{title}</p>
           {testimonialLines.map((line, idx) => (
             <p key={idx} className={`${fontSize} leading-snug mb-4`}>

@@ -65,26 +65,45 @@ const TestimonialSection = () => {
     [0.80, 1.00],
   ];
 
-  // Tailwind background class state
-  const [bgClass, setBgClass] = useState('bg-black');
+  const gradients = [
+    'from-black to-black',
+    'from-gray-900 via-purple-800 to-gray-900',
+    'from-gray-900 via-purple-800 to-gray-900',
+    'from-gray-900 via-purple-800 to-gray-900',
+    'from-gray-900 via-purple-800 to-gray-900',
+  ];
+
+  const [bgIndex, setBgIndex] = useState(0);
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (v) => {
-      if (v < 0.20) setBgClass('bg-black');
-      else if (v < 0.40) setBgClass('bg-purple-900');
-      else if (v < 0.60) setBgClass('bg-purple-900');
-      else if (v < 0.80) setBgClass('bg-purple-900');
-      else setBgClass('bg-purple-900');
+      if (v < 0.20) setBgIndex(0);
+      else if (v < 0.40) setBgIndex(1);
+      else if (v < 0.60) setBgIndex(2);
+      else if (v < 0.80) setBgIndex(3);
+      else setBgIndex(4);
     });
     return () => unsubscribe();
   }, [scrollYProgress]);
+  // ...existing code...
 
   return (
     <motion.section
       ref={ref}
-      className={`flex flex-col items-center w-full transition-colors duration-700 ${bgClass}`}
-      style={{ minHeight: `${100 + testimonials.length * 100}vh`, position: 'relative' }}
+      className="flex flex-col items-center w-full transition-colors duration-700"
+      style={{ minHeight: `${100 + testimonials.length * 100}vh`, position: 'relative', overflow: 'hidden' }}
     >
+      {/* Gradient overlays */}
+      {gradients.map((g, i) => (
+        <motion.div
+          key={i}
+          className={`absolute inset-0 w-full h-full bg-gradient-to-br ${g} pointer-events-none`}
+          initial={{ opacity: i === bgIndex ? 1 : 0 }}
+          animate={{ opacity: i === bgIndex ? 1 : 0 }}
+          transition={{ duration: 0.7 }}
+          style={{ zIndex: 0 }}
+        />
+      ))}
       {/* Animated Title */}
       <motion.h2
         style={{
@@ -95,6 +114,7 @@ const TestimonialSection = () => {
           y: titleY,
           zIndex: 10,
           opacity: titleOpacity,
+          pointerEvents: titleOpacity.get() > 0.5 ? 'auto' : 'none', // Add this line
         }}
         className="text-8xl font-bold text-center pt-8"
       >
@@ -138,7 +158,7 @@ const TestimonialSection = () => {
                 right: 0,
                 height: '50vh',
                 bottom: 0,
-                pointerEvents: 'auto',
+                pointerEvents: opacity.get() > 0.5 ? 'auto' : 'none',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

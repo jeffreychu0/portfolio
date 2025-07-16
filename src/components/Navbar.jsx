@@ -26,11 +26,11 @@ const Navbar = () => {
 
   return (
     <header
-      className={`bg-gray-800 text-white flex justify-between items-center p-4 px-8 fixed top-0 left-0 w-full z-50 transition-transform duration-300 transform ${
+      className={`bg-black bg-opacity-70 text-white flex justify-between items-center p-4 px-8 fixed top-0 left-0 w-full z-50 transition-transform duration-300 transform ${
         visible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <h1 className="text-lg font-bold">Jeffrey Chu</h1>
+      <h1 className="text-xl font-bold">Jeffrey Chu</h1>
       <nav className="space-x-4">
         <Link to="/" className="hover:underline">Home</Link>
         <Link to="/resume" className="hover:underline">Resume</Link>

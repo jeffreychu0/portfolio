@@ -2,6 +2,19 @@
 @import './styles/tailwind.css';
 @import './styles/gradient.css';
 
+@keyframes leftRight {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(12px); }
+}
+@keyframes colorCycle {
+  0%, 100% { background-color: #34d399; }   /* green-400 */
+  33% { background-color: #a78bfa; }        /* purple-400 */
+  66% { background-color: #818cf8; }        /* indigo-400 */
+}
+.loading-dot {
+  animation: leftRight 1s infinite ease-in-out, colorCycle 1.5s infinite linear;
+}
+
 /* Global styles */
 body {
   margin: 0;

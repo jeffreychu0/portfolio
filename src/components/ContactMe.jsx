@@ -52,7 +52,7 @@ const ContactMe = () => {
         {/* Social Icons */}
         <div className="flex gap-6 mt-8">
           <a
-            href="https://www.linkedin.com/in/jeffreychu06"
+            href="https://www.linkedin.com/in/jeffreychu0"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -60,7 +60,7 @@ const ContactMe = () => {
             <LinkedInIcon fontSize="large" className="text-purple-700 hover:text-purple-900 transition-colors" />
           </a>
           <a
-            href="https://github.com/Jc-10243296"
+            href="https://github.com/jeffreychu0"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
