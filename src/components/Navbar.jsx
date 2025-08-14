@@ -58,7 +58,13 @@ const Navbar = () => {
         </a>
       </div>
       <nav className="space-x-4 text-sm md:text-lg">
-        <Link to="/" className="hover:underline">Home</Link>
+        <Link
+          to="/"
+          className="hover:underline"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          Home
+        </Link>
         <Link to="/resume" className="hover:underline">Resume</Link>
       </nav>
     </header>
