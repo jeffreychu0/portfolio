@@ -1,0 +1,5 @@
+node_modules
+.env
+/lambda/*
+!/lambda/lambda_function.js
+!/lambda/lambda.zip
