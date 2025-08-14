@@ -6,6 +6,7 @@ import ContactMePage from './pages/ContactMePage';
 import './styles/tailwind.css';
 import './styles/gradient.css';
 import HomePage from './pages/HomePage';
+import ChatWidget from './components/ChatWidget';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/contact" element={<ContactMePage />} />
         </Routes>
+        <ChatWidget/>
       </div>
     </Router>
   );
