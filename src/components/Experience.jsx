@@ -51,14 +51,14 @@ const experiences = [
 		image: jaimeImage,
 	},
 	{
-		title: 'Finance Forward',
+		title: 'Accenture Finance Forward',
 		date: 'June 2024-September 2024',
 		description:
 			'Various technival hotspots in the office had to be maintained and build back after being non-functional. I Reverse Engineered these places that we did not have the source code for, requiring a lot of data manipulation and understanding how the app works to bring them back to life',
 		image: ffImage,
 	},
 	{
-		title: 'AI Photo App',
+		title: 'Accenture AI Photo App',
 		date: 'Janurary 2024-June 2024',
 		description:
 			'Designed the FE and BE of a GenAI Photos app, utilizing GenAI to place you into photos of famous artworks and places',
