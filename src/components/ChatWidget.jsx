@@ -10,8 +10,6 @@ const gradientBubble =
 
 const lambdaRoute = import.meta.env.VITE_LAMBDA_API_URL;
 
-console.log('Lambda API URL:', lambdaRoute);
-
 const ChatWidget = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
@@ -39,7 +37,9 @@ const ChatWidget = () => {
     try {
       const response = await fetch(lambdaRoute, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',
+          'x-api-key': import.meta.env.VITE_API_KEY
+         },
         body: JSON.stringify({ input })
       });
       const data = await response.json(); // Correct way to get response body
