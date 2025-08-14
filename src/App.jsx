@@ -10,7 +10,7 @@ import ChatWidget from './components/ChatWidget';
 
 function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.BASE_URL}>
       <div className="bg-gray-900 text-white overflow-hidden w-full">
         <Navbar />
         <Routes>

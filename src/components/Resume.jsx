@@ -1,7 +1,7 @@
 import React from 'react';
 
 // const RESUME_PDF_URL = '/resume.pdf#toolbar=0&navpanes=0&scrollbar=0'; // Now served from public/
-const RESUME_PDF_URL = '/Jeffrey Chu - Resume.pdf';
+const RESUME_PDF_URL = import.meta.env.BASE_URL + '/Jeffrey Chu - Resume.pdf';
 
 const Resume = () => (
   <section className="min-h-screen bg-gradient-to-br from-purple-900 to-green-900 flex flex-col items-center justify-start py-12 px-4 w-full">
