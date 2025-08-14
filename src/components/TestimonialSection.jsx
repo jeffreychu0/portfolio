@@ -51,9 +51,11 @@ const testimonials = [
 const TestimonialSection = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start center", "end center"] });
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   // Title animation
-  const titleY = useTransform(scrollYProgress, [0, 0.135], ['80vh', '10vh']);
+  const titleY = useTransform(scrollYProgress, [0, 0.135], ['80vh', windowWidth < 768 ? '4vh' : '10vh']);
   const titlePosition = useTransform(scrollYProgress, [0, 0.135], ['absolute', 'fixed']);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.05, 0.135], [0, 1, 1]);
 
@@ -85,7 +87,18 @@ const TestimonialSection = () => {
     });
     return () => unsubscribe();
   }, [scrollYProgress]);
-  // ...existing code...
+
+  useEffect(() => {
+    const handleResize = () => setWindowHeight(window.innerHeight);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <motion.section
@@ -116,7 +129,7 @@ const TestimonialSection = () => {
           opacity: titleOpacity,
           pointerEvents: titleOpacity.get() > 0.5 ? 'auto' : 'none', // Add this line
         }}
-        className="text-8xl font-bold text-center pt-8"
+        className="text-3xl md:text-8xl font-bold text-center pt-8"
       >
         A few words from my coworkers
       </motion.h2>
@@ -142,10 +155,23 @@ const TestimonialSection = () => {
           // Combine testimonial array into a single string and measure length
           const textLength = t.testimonial.join(' ').length;
           let fontSize = 'text-3xl'; // default
-          if (textLength > 1500) fontSize = 'text-sm';
-          else if (textLength > 700) fontSize = 'text-lg';
-          else if (textLength > 200) fontSize = 'text-3xl';
-
+          if (windowWidth < 768) {
+            if (textLength > 1500) fontSize = 'extra-small';
+            else if (textLength > 700) fontSize = 'text-sm';
+            else if (textLength > 200) fontSize = '';
+          } else if (windowHeight < 901) {
+            if (textLength > 1500) fontSize = 'text-xs';
+            else if (textLength > 700) fontSize = 'text-md';
+            else if (textLength > 200) fontSize = 'text-2xl';
+          } else if (windowHeight < 1081) {
+            if (textLength > 1500) fontSize = 'text-xs';
+            else if (textLength > 700) fontSize = 'text-lg';
+            else if (textLength > 200) fontSize = 'text-3xl';
+          } else { 
+            if (textLength > 1500) fontSize = 'text-sm';
+            else if (textLength > 700) fontSize = 'text-xl';
+            else if (textLength > 200) fontSize = 'text-3xl';
+          }
           return (
             <motion.div
               key={i}

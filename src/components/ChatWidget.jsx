@@ -1,4 +1,3 @@
-import OpenAI from "openai";
 import React, { useState, useRef, useEffect } from 'react';
 
 // Example initial messages (could be imported from /data/chat.json)
@@ -10,21 +9,6 @@ const gradientBubble =
   'bg-gradient-to-br from-green-700 to-indigo-700 text-white';
 
 const lambdaRoute = import.meta.env.VITE_LAMBDA_API_URL;
-
-const openai = new OpenAI({ apiKey: import.meta.env.VITE_OPENAI_API_KEY, dangerouslyAllowBrowser: true });
-
-const ASSISTANT_ID = import.meta.env.VITE_OPENAI_ASSISTANT_ID;
-
-const assistant = await openai.beta.assistants.retrieve(ASSISTANT_ID);
-const thread = await openai.beta.threads.create();
-
-await openai.beta.assistants.update(ASSISTANT_ID, {
-  tool_resources: {
-    file_search: {
-      vector_store_ids: [import.meta.env.VITE_OPENAI_VS_ID]
-    }
-  }
-});
 
 const ChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -51,44 +35,21 @@ const ChatWidget = () => {
     setLoading(true); // Start loading
 
     try {
-      // Create a new thread for this message
-      const thread = await openai.beta.threads.create();
-
-      // Add the user message to the thread
-      await openai.beta.threads.messages.create(thread.id, {
-        role: 'user',
-        content: input
+      const response = await fetch(lambdaRoute, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input })
       });
-
-      // Run the assistant and poll for completion
-      let run = await openai.beta.threads.runs.createAndPoll(
-        thread.id,
-        { assistant_id: assistant.id }
-      );
-
-      // Get the latest assistant message
-      if (run.status === 'completed') {
-        const messagesResponse = await openai.beta.threads.messages.list(thread.id);
-        const assistantMessage = messagesResponse.data
-          .slice()
-          .reverse()
-          .find(m => m.role === "assistant");
-
-        if (assistantMessage) {
-          // Remove all content between and including 【 ... 】
-          const cleanedContent = assistantMessage.content[0].text.value.replace(/【[^】]*】/g, '').trim();
-
-          setMessages(msgs => [
-            ...msgs,
-            { role: 'assistant', content: cleanedContent }
-          ]);
-        }
-      }
+      const data = await response.json(); // Correct way to get response body
+      setMessages(msgs => [
+        ...msgs,
+        { role: 'assistant', content: data.body }
+      ]);
     } catch (err) {
       console.error('Error communicating with AI service:', err);
       setMessages(msgs => [
         ...msgs,
-        { role: 'assistant', content: "Sorry, I couldn't reach the AI service." }
+        { role: 'assistant', content: "The API is experiencing issues currently. Please try again later" }
       ]);
     } finally {
       setLoading(false);
@@ -100,7 +61,7 @@ const ChatWidget = () => {
     return (
       <button
         aria-label="Open chat"
-        className="fixed z-50 bottom-6 right-6 w-16 h-16 rounded-full shadow-lg flex items-center justify-center bg-gradient-to-br from-green-400 via-purple-500 to-indigo-600 animate-bounce focus:outline-none focus:ring-4 focus:ring-purple-400"
+        className="fixed z-50 bottom-6 right-6 w-12 md:w-16 h-12 md:h-16 rounded-full shadow-lg flex items-center justify-center bg-gradient-to-br from-green-400 via-purple-500 to-indigo-600 animate-bounce focus:outline-none focus:ring-4 focus:ring-purple-400"
         onClick={() => setOpen(true)}
       >
         <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
