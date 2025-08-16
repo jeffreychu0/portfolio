@@ -17,6 +17,7 @@ const ChatWidget = () => {
   const [input, setInput] = useState('');
   const inputRef = useRef(null);
   const chatEndRef = useRef(null);
+  const threadRef = useRef("N/A");
 
   useEffect(() => {
     if (open && inputRef.current) inputRef.current.focus();
@@ -38,14 +39,17 @@ const ChatWidget = () => {
       const response = await fetch(lambdaRoute, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json',
-          'x-api-key': import.meta.env.VITE_API_KEY
+          'x-api-key': import.meta.env.VITE_API_KEY,
+          'x-thread-id': threadRef.current
          },
         body: JSON.stringify({ input })
-      });
+      })
+      ;
       const data = await response.json(); // Correct way to get response body
+      threadRef.current = data.id || "N/A";
       setMessages(msgs => [
         ...msgs,
-        { role: 'assistant', content: data.body }
+        { role: 'assistant', content: data.response }
       ]);
     } catch (err) {
       console.error('Error communicating with AI service:', err);
@@ -142,6 +146,7 @@ const ChatWidget = () => {
         <button
           type="submit"
           className="ml-3 px-4 py-2 rounded-full font-semibold bg-gradient-to-br from-green-400 via-purple-500 to-indigo-600 text-white shadow hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          disabled={loading || !input.trim()} // Disable button when loading or input is empty
         >
           Send
         </button>
