@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 // Example initial messages (could be imported from /data/chat.json)
 const initialMessages = [
-  { role: 'assistant', content: 'Hello! I am Jc, an AI assistant made by Jeffrey to answer any questions you have of Jeffrey. Please ask me any questions you have of Jeffrey.' }
+  { role: 'assistant', content: 'Hello! I am Jc, an AI assistant made by Jeffrey to converse about Jeffrey\'s experiences. Please ask me any questions you have of Jeffrey or start a conversation to learn more about who Jeffrey is!' }
 ];
 
 const gradientBubble =
