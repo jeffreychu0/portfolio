@@ -38,14 +38,29 @@ const ChatWidget = () => {
     try {
       const response = await fetch(lambdaRoute, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json',
+        headers: {
+          'Content-Type': 'application/json',
           'x-api-key': import.meta.env.VITE_API_KEY,
           'x-thread-id': threadRef.current
-         },
+        },
         body: JSON.stringify({ input })
-      })
-      ;
-      const data = await response.json(); // Correct way to get response body
+      });
+
+      const contentType = (response.headers.get('content-type') || '').toLowerCase();
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Bad response (${response.status}): ${text}`);
+      }
+
+      let data;
+      if (contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        throw new Error(`Expected JSON but received ${contentType || 'non-JSON'}: ${text.slice(0, 500)}`);
+      }
+
       threadRef.current = data.id || "N/A";
       setMessages(msgs => [
         ...msgs,
