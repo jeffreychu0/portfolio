@@ -8,7 +8,7 @@ const initialMessages = [
 const gradientBubble =
   'bg-gradient-to-br from-green-700 to-indigo-700 text-white';
 
-const lambdaRoute = import.meta.env.VITE_LAMBDA_API_URL;
+const lambdaRoute = import.meta.env.VITE_LAMBDA_API_URL?.trim();
 
 const ChatWidget = () => {
   const [open, setOpen] = useState(false);
@@ -27,6 +27,13 @@ const ChatWidget = () => {
   const handleSend = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
+    if (!lambdaRoute) {
+      setMessages(msgs => [
+        ...msgs,
+        { role: 'assistant', content: 'The chat API is not configured for this deployment.' }
+      ]);
+      return;
+    }
     const newMessages = [
       ...messages.filter(m => m.role !== 'system'),
       { role: 'user', content: input }
@@ -64,7 +71,7 @@ const ChatWidget = () => {
       threadRef.current = data.id || "N/A";
       setMessages(msgs => [
         ...msgs,
-        { role: 'assistant', content: data.response }
+        { role: 'assistant', content: data.response || data.content || 'Sorry, I could not generate a response.' }
       ]);
     } catch (err) {
       console.error('Error communicating with AI service:', err);

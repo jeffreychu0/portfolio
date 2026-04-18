@@ -90,6 +90,10 @@ portfolio-accenture
 
 - Email, LinkedIn, and GitHub links are always visible in the Navbar for quick access.
 
+## Chat API Deployment
+
+The chat widget expects the deployed Lambda/API endpoint to support CORS preflight requests. Make sure the backend allows `OPTIONS` and returns `Access-Control-Allow-Headers` for `Content-Type`, `x-api-key`, and `x-thread-id`. The frontend reads the endpoint from `VITE_LAMBDA_API_URL` at build time.
+
 ---
 
 For further details, explore the component files in `/src/components`.
